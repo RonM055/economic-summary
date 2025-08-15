@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Market Pulse | הדופק הכלכלי היומי</title>
+    <title>דופק השוק | הסיכום הכלכלי היומי</title>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -265,6 +265,11 @@
             color: #ef4444;
         }
 
+        .trend-indicator:not(.trend-up):not(.trend-down) {
+            background: rgba(148, 163, 184, 0.2);
+            color: #64748b;
+        }
+
         /* Analysis Card */
         .analysis-card {
             grid-column: 1 / -1;
@@ -330,11 +335,11 @@
     <header class="header">
         <div class="header-content">
             <div class="logo">
-                📈 Market Pulse
+                📊 דופק השוק
             </div>
             <div class="live-badge">
                 <div class="pulse"></div>
-                <span>עדכון אחרון: היום ב-18:00</span>
+                <span>עדכון אחרון: 15.8.2025 | 18:30</span>
             </div>
         </div>
     </header>
@@ -356,9 +361,9 @@
     <div class="container">
         <!-- Date Navigation -->
         <div class="date-nav">
-            <button class="date-btn" onclick="changeDate(-1)">← יום קודם</button>
+            <button class="date-btn" id="prevBtn" onclick="changeDate(-1)">← יום קודם</button>
             <span class="current-date" id="currentDate"></span>
-            <button class="date-btn" onclick="changeDate(1)">יום הבא →</button>
+            <button class="date-btn" id="nextBtn" onclick="changeDate(1)">יום הבא →</button>
         </div>
 
         <!-- Summary Grid -->
@@ -369,7 +374,7 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <p>Market Pulse © 2025 | מופעל בטכנולוגיית AI | נתונים מתעדכנים מדי יום</p>
+        <p>דופק השוק © 2025 | מופעל בטכנולוגיית AI | נתונים מתעדכנים מדי יום</p>
     </footer>
 
     <script>
@@ -416,7 +421,7 @@
             }
         };
 
-        let currentDate = new Date();
+        let currentDate = new Date('2025-08-15');
 
         function formatDate(date) {
             const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
@@ -452,7 +457,7 @@
                         <div class="card-content">
                             ${summary.mainEvents.map(event => `
                                 <div class="event-item">
-                                    <div class="trend-indicator ${event.trend === 'up' ? 'trend-up' : 'trend-down'}">
+                                    <div class="trend-indicator ${event.trend === 'up' ? 'trend-up' : event.trend === 'down' ? 'trend-down' : ''}">
                                         ${event.trend === 'up' ? '↑' : event.trend === 'down' ? '↓' : '→'}
                                     </div>
                                     <span>${event.text}</span>
@@ -502,6 +507,7 @@
 
         // Initialize
         updateDisplay();
+        updateButtons();
     </script>
 </body>
 </html>
